@@ -19,10 +19,12 @@ sources = [
 
 
 # Bash recipe for building across all platforms
+# if [[ ${target} == *-mingw32 ]]; then     libdir="bin"; else     libdir="lib"; fi
+
 script = raw"""
 cd $WORKSPACE/srcdir
 cd Triangulate.jl/deps/src
-if [[ ${target} == *-mingw32 ]]; then     libdir="bin"; else     libdir="lib"; fi
+libdir="lib"
 mkdir ${prefix}/${libdir}
 $CC -DTRILIBRARY -O3 -fPIC -DNDEBUG -DNO_TIMER -DEXTERNAL_TEST $LDFLAGS --shared -o ${prefix}/${libdir}/libtriangle.${dlext} triangle/triangle.c triunsuitable.c
 """
