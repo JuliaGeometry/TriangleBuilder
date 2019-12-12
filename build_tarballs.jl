@@ -22,7 +22,7 @@ sources = [
 script = raw"""
 cd $WORKSPACE/srcdir
 cd Triangulate.jl/deps/src
-$CC -DTRILIBRARY -fPIC -DNDEBUG -DNO_TIMER -DEXTERNAL_TEST $LDFLAGS --shared -o $prefix/libtriangle.so triangle/triangle.c triunsuitable.c
+$CC -DTRILIBRARY -O3 -fPIC -DNDEBUG -DNO_TIMER -DEXTERNAL_TEST $LDFLAGS --shared -o $prefix/libtriangle.${dlext} triangle/triangle.c triunsuitable.c
 
 """
 
@@ -47,7 +47,7 @@ $CC -DTRILIBRARY -fPIC -DNDEBUG -DNO_TIMER -DEXTERNAL_TEST $LDFLAGS --shared -o 
 platforms = BinaryBuilder.supported_platforms()
 
 # The products that we will ensure are always built
-products(prefix) = [  LibraryProduct(prefix, "libtriangle", :libtriangle)]
+products(prefix) = [  LibraryProduct(prefix, "libtriangle", :libtriangle) ]
 
 # Dependencies that must be installed before this package can be built
 dependencies = []
