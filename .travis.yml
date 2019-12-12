@@ -1,0 +1,39 @@
+language: julia
+os:
+  - linux
+julia:
+  - 1.0
+notifications:
+  email: false
+git:
+  depth: 99999999
+cache:
+  timeout: 1000
+  directories:
+    - downloads
+env:
+  global:
+    - BINARYBUILDER_DOWNLOADS_CACHE=downloads
+    - BINARYBUILDER_AUTOMATIC_APPLE=false
+sudo: required
+
+# Before anything else, get the latest versions of things
+before_script:
+  - julia -e 'using Pkg; pkg"add BinaryProvider"; pkg"add BinaryBuilder#master"; Pkg.build()'
+
+script:
+  - julia build_tarballs.jl
+
+
+deploy:
+    provider: releases
+    api_key:
+        # Note; this api_key is only valid for j-fu/JuliaGeometry-TriangleBuilder; you need
+        # to make your own: https://docs.travis-ci.com/user/deployment/releases/
+        secure: Cj+4BRr8FQHJ4xsIqOCexo4NmgQToT9iWRGujBe/ZiWzhIF9lY+zLKIYosE2RHWfjxPWdOqioJY0eMDs5ow1bcBM1ywCNKuq8H/I7SdVmQXDub0xZrV7zKqVYCAgSfpdwwL/MFCUPMIVf2Jmr2247cxko+ecLP8UuxplMJ7f3D+FbK8AByjKTaacMqSAg7mgvirK5yqXshNCVl15h+TMpvH1DjJlLOb0U8OgFUvAziaDCaVQhM7ZdDmOaxv/xF/gyv0ZJc/44UmcFMuSE0B81aO7y3BQJM6D5Po8SChZqLkKr7M4fbeLYldg4rvlfHX3hPQM6+Waqu6HffcplNfEXmzGMuWjkB1RiKONd9faH4X8ct/Dby8hpXi9NIGs9CcPK6cT9RhXk3DEE6vQZYCky9wQLFX2liM1cKBM1gUuLR8nufs2UPVkfp5Pba+eZ5Pzvcvnyl4tG280WGf9oRkwj1fG7ksqN2S/F/EB9gYgElhKCedCM1qTf0HTHpJ6bv0683CDttr+cQJU+ZU1audiBtv2wpEI3w6m43Dic6cR1q0K4MAWvIaknUNKYCs1XwZSJ0TjcVtA/JYmNKawCyY7RzpiKDtYKoDiwt9s2cVHcyjtKQousbGPejsID95ufnurdAIPUt+FSZxLbjXS1J2oAiKX5LqXwwJJq6kRbLzw/M8=
+    file_glob: true
+    file: products/*
+    skip_cleanup: true
+    on:
+        repo: j-fu/JuliaGeometry-TriangleBuilder
+        tags: true
