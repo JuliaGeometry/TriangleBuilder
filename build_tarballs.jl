@@ -2,15 +2,21 @@
 # `julia build_tarballs.jl --help` to see a usage message.
 using BinaryBuilder
 
-name = "triangle"
-version = v"0.1.0"
+name = "Triangle"
+version = v"1.6.0"
 
 # Collection of sources required to build triangle
+#
+# Please be aware that triunsuitable.c is not part of the original Triangle distribution.
+# It provides the possibility to pass a cfunction created in Julia as  user refinement callback.
+# For this reason at least triunsiutable.c must be downloaded from Triangulate.jl repo.
+#
 sources = [
     "https://github.com/JuliaGeometry/Triangulate.jl.git" =>
     "e7b1237f64ac1ad3b3d205c5b53ad0928b17c631",
 
 ]
+
 
 # Bash recipe for building across all platforms
 script = raw"""
