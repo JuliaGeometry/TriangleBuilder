@@ -47,7 +47,7 @@ $CC -DTRILIBRARY -O3 -fPIC -DNDEBUG -DNO_TIMER -DEXTERNAL_TEST $LDFLAGS --shared
 platforms = BinaryBuilder.supported_platforms()
 
 # The products that we will ensure are always built
-products(prefix) = [  LibraryProduct(prefix, "libtriangle", :libtriangle) ]
+products = [  LibraryProduct("libtriangle", :libtriangle) ]
 
 # Dependencies that must be installed before this package can be built
 dependencies = []
