@@ -22,8 +22,9 @@ sources = [
 script = raw"""
 cd $WORKSPACE/srcdir
 cd Triangulate.jl/deps/src
-$CC -DTRILIBRARY -O3 -fPIC -DNDEBUG -DNO_TIMER -DEXTERNAL_TEST $LDFLAGS --shared -o $prefix/libtriangle.${dlext} triangle/triangle.c triunsuitable.c
-
+if [[ ${target} == *-mingw32 ]]; then     libdir="bin"; else     libdir="lib"; fi
+mkdir ${prefix}/${libdir}
+$CC -DTRILIBRARY -O3 -fPIC -DNDEBUG -DNO_TIMER -DEXTERNAL_TEST $LDFLAGS --shared -o ${prefix}/${libdir}/libtriangle.${dlext} triangle/triangle.c triunsuitable.c
 """
 
 # These are the platforms we will build for by default, unless further
@@ -47,7 +48,7 @@ $CC -DTRILIBRARY -O3 -fPIC -DNDEBUG -DNO_TIMER -DEXTERNAL_TEST $LDFLAGS --shared
 platforms = BinaryBuilder.supported_platforms()
 
 # The products that we will ensure are always built
-products = [  LibraryProduct("libtriangle", :libtriangle) ]
+products(prefix) = [  LibraryProduct(prefix,"libtriangle", :libtriangle) ]
 
 # Dependencies that must be installed before this package can be built
 dependencies = []
