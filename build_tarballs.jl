@@ -13,20 +13,21 @@ version = v"1.6.0"
 #
 sources = [
     "https://github.com/JuliaGeometry/Triangulate.jl.git" =>
-    "e7b1237f64ac1ad3b3d205c5b53ad0928b17c631",
+    "b2ffb23ca7d89c567fd31367882bd216757cdb9c",
+#    "e7b1237f64ac1ad3b3d205c5b53ad0928b17c631", @binary_builder-0.1
 
 ]
 
 
 # Bash recipe for building across all platforms
-# if [[ ${target} == *-mingw32 ]]; then     libdir="bin"; else     libdir="lib"; fi
 
 script = raw"""
 cd $WORKSPACE/srcdir
 cd Triangulate.jl/deps/src
-libdir="lib"
+if [[ ${target} == *-mingw32 ]]; then     libdir="bin"; else     libdir="lib"; fi
 mkdir ${prefix}/${libdir}
-$CC -DTRILIBRARY -O3 -fPIC -DNDEBUG -DNO_TIMER -DEXTERNAL_TEST $LDFLAGS --shared -o ${prefix}/${libdir}/libtriangle.${dlext} triangle/triangle.c triunsuitable.c
+sed -e "s/  exit/extern void error_exit(int); error_exit/g" triangle/triangle.c > triangle_patched.c
+$CC -Itriangle -DREAL=double -DTRILIBRARY -O3 -fPIC -DNDEBUG -DNO_TIMER -DEXTERNAL_TEST $LDFLAGS --shared -o ${prefix}/${libdir}/libtriangle.${dlext} triangle_patched.c triwrap.c
 """
 
 # These are the platforms we will build for by default, unless further
