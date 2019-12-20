@@ -11,6 +11,5 @@ on this repository.
 
 This repository was created using [BinaryBuilder.jl](https://github.com/JuliaPackaging/BinaryBuilder.jl)
 
-Upload from travis currently does not work, it needs to be done manually.
 
 
