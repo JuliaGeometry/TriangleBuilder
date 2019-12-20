@@ -17,7 +17,7 @@ env:
     - BINARYBUILDER_AUTOMATIC_APPLE=false
 sudo: required
 before_script:
-  - julia -e 'using Pkg; Pkg.add("BinaryBuilder",version="0.1.4"); Pkg.build()'
+  - julia -e 'using Pkg; Pkg.add("BinaryBuilder"); Pkg.build()'
 script:
   - julia build_tarballs.jl
 deploy:
