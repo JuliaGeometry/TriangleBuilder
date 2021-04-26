@@ -1,4 +1,9 @@
+
 # TriangleBuilder
+
+Notice: this package is not maintained anymore.
+It is replaced by the new artifact system.
+
 
 [![Build Status](https://travis-ci.org/JuliaGeometry/TriangleBuilder.svg?branch=master)](https://travis-ci.org/JuliaGeometry/TriangleBuilder)
 
